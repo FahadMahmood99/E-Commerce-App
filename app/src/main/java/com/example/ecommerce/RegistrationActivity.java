@@ -41,7 +41,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
 //        if(auth.getCurrentUser()!=null)
 //        {
-//
+//            startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+//            finish();
 //        }
 
         name=findViewById(R.id.name);
