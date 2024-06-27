@@ -39,11 +39,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
         auth=FirebaseAuth.getInstance();
 
-//        if(auth.getCurrentUser()!=null)
-//        {
-//            startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
-//            finish();
-//        }
+        if(auth.getCurrentUser()!=null)
+        {
+            startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+            finish();
+        }
 
         name=findViewById(R.id.name);
         email=findViewById(R.id.email);
