@@ -1,6 +1,7 @@
 package com.example.ecommerce;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,6 +26,7 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     private FirebaseAuth auth;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,20 @@ public class RegistrationActivity extends AppCompatActivity {
         name=findViewById(R.id.name);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
+
+        sharedPreferences=getSharedPreferences("onBoardingScreen",MODE_PRIVATE);
+
+        boolean isFirstTime=sharedPreferences.getBoolean("First Time",true);
+
+        if(isFirstTime)
+        {
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.putBoolean("First Time",false);
+            editor.commit();
+            Intent intent=new Intent(RegistrationActivity.this,OnboardingActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -52,6 +53,14 @@ public class OnboardingActivity extends AppCompatActivity {
 
         sliderAdapter=new SliderAdapter(this);
         viewPager.setAdapter(sliderAdapter);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OnboardingActivity.this, RegistrationActivity.class));
+                finish();
+            }
+        });
     }
 
 
@@ -77,7 +86,6 @@ public class OnboardingActivity extends AppCompatActivity {
     ViewPager.OnPageChangeListener changeListener=new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
         }
 
         @Override
