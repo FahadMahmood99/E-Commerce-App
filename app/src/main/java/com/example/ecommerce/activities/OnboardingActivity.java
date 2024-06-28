@@ -1,4 +1,4 @@
-package com.example.ecommerce;
+package com.example.ecommerce.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,9 @@ import androidx.core.text.HtmlCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.ecommerce.R;
+import com.example.ecommerce.adapters.SliderAdapter;
 
 public class OnboardingActivity extends AppCompatActivity {
 
