@@ -33,6 +33,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
                 android:text="Category"
+
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
@@ -44,6 +45,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
                 android:gravity="end"
+
                 android:text="See All"
                 android:textColor="@color/orange"
                 android:textSize="18sp"
