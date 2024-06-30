@@ -37,8 +37,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         Glide.with(context).load(list.get(position).getImg_url()).into((holder.catImg));
         holder.catName.setText(list.get(position).getName());
-
     }
+
+
 
     @Override
     public int getItemCount() {
