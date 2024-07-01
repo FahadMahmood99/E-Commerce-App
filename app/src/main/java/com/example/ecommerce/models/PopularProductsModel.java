@@ -1,6 +1,6 @@
 package com.example.ecommerce.models;
 
-public class NewProductsModel {
+public class PopularProductsModel {
 
     String description;
     String name;
@@ -8,10 +8,10 @@ public class NewProductsModel {
     int price;
     String img_url;
 
-    public NewProductsModel() {
+    public PopularProductsModel() {
     }
 
-    public NewProductsModel(String description, String name, String rating, int price, String img_url) {
+    public PopularProductsModel(String description, String name, String rating, int price, String img_url) {
         this.description = description;
         this.name = name;
         this.rating = rating;
