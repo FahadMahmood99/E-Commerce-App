@@ -1,6 +1,7 @@
 package com.example.ecommerce.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.ecommerce.R;
+import com.example.ecommerce.activities.DetailedActivity;
 import com.example.ecommerce.models.ShowAllModel;
 
 import java.util.List;
@@ -38,6 +40,16 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
         Glide.with(context).load(list.get(position).getImg_url()).into((holder.itemImg));
         holder.itemCost.setText("$"+list.get(position).getPrice());
         holder.itemname.setText(list.get(position).getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, DetailedActivity.class);
+                intent.putExtra("detailed",list.get(position));
+                context.startActivity(intent);
+
+            }
+        });
 
     }
 
