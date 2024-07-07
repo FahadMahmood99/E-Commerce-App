@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,6 +37,7 @@ public class ShowAllActivity extends AppCompatActivity {
     ShowAllAdapter showAllAdapter;
     ShowAllModel showAllModel;
     List<ShowAllModel> showAllModelList;
+    Toolbar toolbar;
 
     FirebaseFirestore firestore;
 
@@ -53,6 +55,10 @@ public class ShowAllActivity extends AppCompatActivity {
 
         String type=getIntent().getStringExtra("type");
 
+
+        toolbar=findViewById(R.id.show_all_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         firestore=FirebaseFirestore.getInstance();
 
         recyclerView=findViewById(R.id.show_all_rec);
