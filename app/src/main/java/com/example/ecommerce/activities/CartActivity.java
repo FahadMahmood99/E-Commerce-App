@@ -1,6 +1,11 @@
 package com.example.ecommerce.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,12 +37,14 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
 
+
     Toolbar toolbar;
     RecyclerView recyclerView;
     List<MyCartModel> cartModelList;
     MyCartAdapter cartAdapter;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    TextView overAllAmount;
 
 
     @Override
@@ -57,6 +65,11 @@ public class CartActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //get data from my cart Adapter
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(mMessageReciever,new IntentFilter("MyTotalAmount"));
+
+        overAllAmount= findViewById(R.id.textView3);
         recyclerView=findViewById(R.id.car_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartModelList=new ArrayList<>();
@@ -80,4 +93,15 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    public BroadcastReceiver mMessageReciever=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            int totalBill=intent.getIntExtra("totalAmount",0);
+            overAllAmount.setText("Total Amount: $" + totalBill);
+
+        }
+    };
+
 }
