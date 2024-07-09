@@ -2,6 +2,7 @@ package com.example.ecommerce.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -60,8 +61,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
-        addAddress=findViewById(R.id.add_address_btn);
 
+        addAddress=findViewById(R.id.add_address_btn);
         recyclerView=findViewById(R.id.address_recycler);
         paymentBtn=findViewById(R.id.payment_btn);
 
@@ -79,10 +80,13 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                             {
                                 AddressModel addressModel=document.toObject(AddressModel.class);
                                 addressModelList.add(addressModel);
+                                Log.d("Firestore", "Address added: " + addressModel.getUserAddress());
                                 addressAdapter.notifyDataSetChanged();
                             }
+                            addressAdapter.notifyDataSetChanged();
                         }
                         else {
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
                         }
                     }
                 });

@@ -3,10 +3,15 @@ package com.example.ecommerce.models;
 public class AddressModel {
 
     String userAddress;
-    boolean isSelected;
 
+    boolean isSelected;
     public String getUserAddress() {
         return userAddress;
+    }
+
+    public AddressModel(String userAddress, boolean isSelected) {
+        this.userAddress = userAddress;
+        this.isSelected = isSelected;
     }
 
     public void setUserAddress(String userAddress) {
