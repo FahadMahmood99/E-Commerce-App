@@ -51,25 +51,16 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
 
-//        Intent intent = getIntent();
-//        int receivedValue = intent.getIntExtra("totalBill", 0);
-
-//        Intent intent = getIntent();
+       Intent intent = getIntent();
 //        PaymentData paymentData = (PaymentData) intent.getSerializableExtra("paymentData");
-//        int receivedValue = paymentData != null ? paymentData.getTotalBill() : 0;
-//
-//
-//        double amount=0.0;
-//        amount=getIntent().getDoubleExtra("amount",0.0);
-
-        Intent intent = getIntent();
-        PaymentData paymentData = (PaymentData) intent.getSerializableExtra("paymentData");
         double amount = intent.getDoubleExtra("amount", 0.0);
         int receivedValue = 0;
-
-        if (paymentData != null) {
-            receivedValue = paymentData.getTotalBill();
-        } else if (amount != 0.0) {
+//
+//        if (paymentData != null) {
+//            receivedValue = paymentData.getTotalBill();
+//        } else
+//
+        if (amount != 0.0) {
             receivedValue = (int) amount;
         }
 

@@ -115,7 +115,7 @@ public class CartActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     PaymentData paymentData = new PaymentData(totalBill);
-                    Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                    Intent intent = new Intent(CartActivity.this, AddressActivity.class);
                     intent.putExtra("paymentData", paymentData);
                     startActivity(intent);
                 }

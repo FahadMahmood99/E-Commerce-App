@@ -22,6 +22,7 @@ import com.example.ecommerce.adapters.AddressAdapter;
 import com.example.ecommerce.models.AddressModel;
 
 import com.example.ecommerce.models.NewProductsModel;
+import com.example.ecommerce.models.PaymentData;
 import com.example.ecommerce.models.PopularProductsModel;
 import com.example.ecommerce.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -109,34 +110,47 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                     }
                 });
 
-        paymentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                double amount=0.0;
 
-                if(obj instanceof NewProductsModel)
-                {
-                    NewProductsModel newProductsModel=(NewProductsModel)  obj;
-                    amount=newProductsModel.getPrice();
+        Intent intent = getIntent();
+        PaymentData paymentData = (PaymentData) intent.getSerializableExtra("paymentData");
+
+        if (paymentData != null) {
+            int finalTotalBill = paymentData.getTotalBill();
+            paymentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    double amount = finalTotalBill;
+                    Intent paymentIntent = new Intent(AddressActivity.this, PaymentActivity.class);
+                    paymentIntent.putExtra("amount", amount);
+                    startActivity(paymentIntent);
                 }
-                if(obj instanceof PopularProductsModel)
-                {
-                    PopularProductsModel popularProductsModel=(PopularProductsModel)  obj;
-                    amount=popularProductsModel.getPrice();
-                }
-                if(obj instanceof ShowAllModel)
-                {
-                    ShowAllModel showAllModel=(ShowAllModel)  obj;
-                    amount=showAllModel.getPrice();
-                }
+            });
+        } else {
+            Object obje = getIntent().getSerializableExtra("item");
+            double amount = 0.0;
 
-                Intent intent= new Intent(AddressActivity.this,PaymentActivity.class);
-                intent.putExtra("amount",amount);
-                startActivity(intent);
-
+            if (obje instanceof NewProductsModel) {
+                NewProductsModel newProductsModel = (NewProductsModel) obje;
+                amount = newProductsModel.getPrice();
+            } else if (obje instanceof PopularProductsModel) {
+                PopularProductsModel popularProductsModel = (PopularProductsModel) obje;
+                amount = popularProductsModel.getPrice();
+            } else if (obje instanceof ShowAllModel) {
+                ShowAllModel showAllModel = (ShowAllModel) obje;
+                amount = showAllModel.getPrice();
             }
-        });
+
+            double finalAmount = amount;
+            paymentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent paymentIntent = new Intent(AddressActivity.this, PaymentActivity.class);
+                    paymentIntent.putExtra("amount", finalAmount);
+                    startActivity(paymentIntent);
+                }
+            });
+        }
 
 
         addAddress.setOnClickListener(new View.OnClickListener() {
