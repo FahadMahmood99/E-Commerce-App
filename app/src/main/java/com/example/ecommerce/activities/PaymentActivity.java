@@ -54,13 +54,24 @@ public class PaymentActivity extends AppCompatActivity {
 //        Intent intent = getIntent();
 //        int receivedValue = intent.getIntExtra("totalBill", 0);
 
+//        Intent intent = getIntent();
+//        PaymentData paymentData = (PaymentData) intent.getSerializableExtra("paymentData");
+//        int receivedValue = paymentData != null ? paymentData.getTotalBill() : 0;
+//
+//
+//        double amount=0.0;
+//        amount=getIntent().getDoubleExtra("amount",0.0);
+
         Intent intent = getIntent();
         PaymentData paymentData = (PaymentData) intent.getSerializableExtra("paymentData");
-        int receivedValue = paymentData != null ? paymentData.getTotalBill() : 0;
+        double amount = intent.getDoubleExtra("amount", 0.0);
+        int receivedValue = 0;
 
-
-        double amount=0.0;
-        amount=getIntent().getDoubleExtra("amount",0.0);
+        if (paymentData != null) {
+            receivedValue = paymentData.getTotalBill();
+        } else if (amount != 0.0) {
+            receivedValue = (int) amount;
+        }
 
         subtotal=findViewById(R.id.sub_total);
         discount=findViewById(R.id.textView17);
@@ -69,16 +80,16 @@ public class PaymentActivity extends AppCompatActivity {
         paymentBtn=findViewById(R.id.pay_btn);
 
 
-        subtotal.setText(String.valueOf((int) amount));
+        subtotal.setText(String.valueOf("$"+receivedValue));
+        total.setText(String.valueOf("$"+receivedValue));
 
-        subtotal.setText(String.valueOf((int) receivedValue));
-        total.setText(String.valueOf((int)receivedValue));
-
-        double finalReceivedValue = receivedValue;
+        int finalReceivedValue = receivedValue;
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PaymentActivity.this,""+(int) finalReceivedValue,Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaymentActivity.this, "Your $" + finalReceivedValue+ "has been Successfully recved", Toast.LENGTH_SHORT).show();
+
+
 
             }
         });
