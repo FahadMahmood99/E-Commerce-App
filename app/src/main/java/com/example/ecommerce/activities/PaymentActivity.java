@@ -51,15 +51,11 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
 
-       Intent intent = getIntent();
-//        PaymentData paymentData = (PaymentData) intent.getSerializableExtra("paymentData");
+
+        Intent intent = getIntent();
         double amount = intent.getDoubleExtra("amount", 0.0);
+
         int receivedValue = 0;
-//
-//        if (paymentData != null) {
-//            receivedValue = paymentData.getTotalBill();
-//        } else
-//
         if (amount != 0.0) {
             receivedValue = (int) amount;
         }
@@ -71,8 +67,8 @@ public class PaymentActivity extends AppCompatActivity {
         paymentBtn=findViewById(R.id.pay_btn);
 
 
-        subtotal.setText(String.valueOf("$"+receivedValue));
-        total.setText(String.valueOf("$"+receivedValue));
+        subtotal.setText("$"+receivedValue);
+        total.setText("$"+receivedValue);
 
         int finalReceivedValue = receivedValue;
         paymentBtn.setOnClickListener(new View.OnClickListener() {
