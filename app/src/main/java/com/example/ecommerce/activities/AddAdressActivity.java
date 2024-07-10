@@ -51,6 +51,13 @@ public class AddAdressActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
 
@@ -107,6 +114,7 @@ public class AddAdressActivity extends AppCompatActivity {
                                     {
                                         Toast.makeText(AddAdressActivity.this,"Address Added",Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(AddAdressActivity.this,AddressActivity.class));
+                                        finish();
                                     }
                                     else
                                     {

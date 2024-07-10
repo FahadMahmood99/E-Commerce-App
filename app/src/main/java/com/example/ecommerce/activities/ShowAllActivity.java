@@ -5,6 +5,7 @@ import static android.app.PendingIntent.getActivity;
 import static java.security.AccessController.getContext;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -59,6 +60,14 @@ public class ShowAllActivity extends AppCompatActivity {
         toolbar=findViewById(R.id.show_all_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         firestore=FirebaseFirestore.getInstance();
 
         recyclerView=findViewById(R.id.show_all_rec);

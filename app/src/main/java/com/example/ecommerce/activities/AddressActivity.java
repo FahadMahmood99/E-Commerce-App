@@ -21,6 +21,9 @@ import com.example.ecommerce.R;
 import com.example.ecommerce.adapters.AddressAdapter;
 import com.example.ecommerce.models.AddressModel;
 
+import com.example.ecommerce.models.NewProductsModel;
+import com.example.ecommerce.models.PopularProductsModel;
+import com.example.ecommerce.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +62,21 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         toolbar=findViewById(R.id.address_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+        //get Data from DetailedActivity
+        Object obj=getIntent().getSerializableExtra("item");
+
+
+
+
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
 
@@ -94,7 +112,29 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddressActivity.this,PaymentActivity.class));
+
+                double amount=0.0;
+
+                if(obj instanceof NewProductsModel)
+                {
+                    NewProductsModel newProductsModel=(NewProductsModel)  obj;
+                    amount=newProductsModel.getPrice();
+                }
+                if(obj instanceof PopularProductsModel)
+                {
+                    PopularProductsModel popularProductsModel=(PopularProductsModel)  obj;
+                    amount=popularProductsModel.getPrice();
+                }
+                if(obj instanceof ShowAllModel)
+                {
+                    ShowAllModel showAllModel=(ShowAllModel)  obj;
+                    amount=showAllModel.getPrice();
+                }
+
+                Intent intent= new Intent(AddressActivity.this,PaymentActivity.class);
+                intent.putExtra("amount",amount);
+                startActivity(intent);
+
             }
         });
 

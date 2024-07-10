@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecommerce.R;
 import com.example.ecommerce.adapters.MyCartAdapter;
 import com.example.ecommerce.models.MyCartModel;
+import com.example.ecommerce.models.NewProductsModel;
+import com.example.ecommerce.models.PaymentData;
 import com.example.ecommerce.models.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,6 +49,8 @@ public class CartActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     TextView overAllAmount;
+    Button buyNow;
+    MyCartModel myCartModel=null;
 
 
     @Override
@@ -64,6 +70,23 @@ public class CartActivity extends AppCompatActivity {
         toolbar=findViewById(R.id.my_cart_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        buyNow=findViewById(R.id.buy_now);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        final Object obj=getIntent().getSerializableExtra("detailed");
+
+        if(obj instanceof MyCartModel)
+        {
+            myCartModel=(MyCartModel) obj;
+        }
+
+
 
         //get data from my cart Adapter
         LocalBroadcastManager.getInstance(this)
@@ -100,6 +123,27 @@ public class CartActivity extends AppCompatActivity {
 
             int totalBill=intent.getIntExtra("totalAmount",0);
             overAllAmount.setText("Total Amount: $" + totalBill);
+
+            buyNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    PaymentData paymentData = new PaymentData(totalBill);
+                    Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                    intent.putExtra("paymentData", paymentData);
+                    startActivity(intent);
+
+//                    Intent intent=new Intent(CartActivity.this,AddressActivity.class);
+//
+//                    if(myCartModel!=null)
+//                    {
+//                        intent.putExtra("amount",totalBill);
+//                    }
+//                    startActivity(intent);
+
+
+                }
+            });
 
         }
     };
