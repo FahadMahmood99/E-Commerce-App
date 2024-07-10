@@ -74,8 +74,9 @@ public class PaymentActivity extends AppCompatActivity {
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PaymentActivity.this, "Your $" + finalReceivedValue+ "has been Successfully recved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaymentActivity.this, "Your $" + finalReceivedValue+ " has been Successfully received", Toast.LENGTH_SHORT).show();
 
+                startActivity(new Intent(PaymentActivity.this, MainActivity.class));
 
 
             }

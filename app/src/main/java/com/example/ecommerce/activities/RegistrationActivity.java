@@ -1,20 +1,17 @@
 package com.example.ecommerce.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +24,6 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     private FirebaseAuth auth;
-    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,88 +36,59 @@ public class RegistrationActivity extends AppCompatActivity {
             return insets;
         });
 
-        auth=FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        if(auth.getCurrentUser()!=null)
-        {
+        if (auth.getCurrentUser() != null) {
             startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
             finish();
         }
 
-        name=findViewById(R.id.name);
-        email=findViewById(R.id.email);
-        password=findViewById(R.id.password);
-
-        sharedPreferences=getSharedPreferences("onBoardingScreen",MODE_PRIVATE);
-
-        boolean isFirstTime=sharedPreferences.getBoolean("First Time",true);
-
-        if(isFirstTime)
-        {
-            SharedPreferences.Editor editor=sharedPreferences.edit();
-            editor.putBoolean("First Time",false);
-            editor.commit();
-            Intent intent=new Intent(RegistrationActivity.this,OnboardingActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
+        name = findViewById(R.id.name);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
     }
 
     public void signup(View view) {
-
         String username = name.getText().toString();
         String useremail = email.getText().toString();
         String userpassword = password.getText().toString();
 
-
-        if(TextUtils.isEmpty(username))
-        {
+        if (TextUtils.isEmpty(username)) {
             Toast.makeText(this, "Enter name", Toast.LENGTH_SHORT).show();
             return;
         }
 
-
-        if(TextUtils.isEmpty(useremail))
-        {
+        if (TextUtils.isEmpty(useremail)) {
             Toast.makeText(this, "Enter E-mail Address", Toast.LENGTH_SHORT).show();
             return;
         }
 
-
-        if(TextUtils.isEmpty(userpassword))
-        {
+        if (TextUtils.isEmpty(userpassword)) {
             Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
             return;
         }
 
-
-        if(userpassword.length()<6)
-        {
+        if (userpassword.length() < 6) {
             Toast.makeText(this, "Password too short!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        auth.createUserWithEmailAndPassword(useremail,userpassword)
-                        .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                if (task.isSuccessful()){
-                                    Toast.makeText(RegistrationActivity.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
-                                    finish();
-                                }
-                                else {
-                                    Toast.makeText(RegistrationActivity.this, "Registration Failed"+task.getException(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
+        auth.createUserWithEmailAndPassword(useremail, userpassword)
+                .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(RegistrationActivity.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegistrationActivity.this, OnboardingActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(RegistrationActivity.this, "Registration Failed" + task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
-
     public void signin(View view) {
-        startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
+        startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
     }
 }
