@@ -50,8 +50,7 @@ public class CartActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     TextView overAllAmount;
     Button buyNow;
-    MyCartModel myCartModel=null;
-
+    MyCartModel myCartModel = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +63,12 @@ public class CartActivity extends AppCompatActivity {
             return insets;
         });
 
-
-        auth=FirebaseAuth.getInstance();
-        firestore=FirebaseFirestore.getInstance();
-        toolbar=findViewById(R.id.my_cart_toolbar);
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        toolbar = findViewById(R.id.my_cart_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        buyNow=findViewById(R.id.buy_now);
+        buyNow = findViewById(R.id.buy_now);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,73 +77,49 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        final Object obj=getIntent().getSerializableExtra("detailed");
-
-        if(obj instanceof MyCartModel)
-        {
-            myCartModel=(MyCartModel) obj;
-        }
-
-
-
-        //get data from my cart Adapter
+        // get data from my cart Adapter
         LocalBroadcastManager.getInstance(this)
-                .registerReceiver(mMessageReciever,new IntentFilter("MyTotalAmount"));
+                .registerReceiver(mMessageReceiver, new IntentFilter("MyTotalAmount"));
 
-        overAllAmount= findViewById(R.id.textView3);
-        recyclerView=findViewById(R.id.car_rec);
+        overAllAmount = findViewById(R.id.textView3);
+        recyclerView = findViewById(R.id.car_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        cartModelList=new ArrayList<>();
-        cartAdapter=new MyCartAdapter(this,cartModelList);
+        cartModelList = new ArrayList<>();
+        cartAdapter = new MyCartAdapter(this, cartModelList);
         recyclerView.setAdapter(cartAdapter);
 
         firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())
                 .collection("User").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document: task.getResult())
-                            {
-                                MyCartModel mycartModel=document.toObject(MyCartModel.class);
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                MyCartModel mycartModel = document.toObject(MyCartModel.class);
                                 cartModelList.add(mycartModel);
                                 cartAdapter.notifyDataSetChanged();
                             }
-                        }
-                        else {
+                        } else {
+                            // Handle error
                         }
                     }
                 });
     }
 
-    public BroadcastReceiver mMessageReciever=new BroadcastReceiver() {
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            int totalBill=intent.getIntExtra("totalAmount",0);
+            int totalBill = intent.getIntExtra("totalAmount", 0);
             overAllAmount.setText("Total Amount: $" + totalBill);
 
             buyNow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     PaymentData paymentData = new PaymentData(totalBill);
                     Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
                     intent.putExtra("paymentData", paymentData);
                     startActivity(intent);
-
-//                    Intent intent=new Intent(CartActivity.this,AddressActivity.class);
-//
-//                    if(myCartModel!=null)
-//                    {
-//                        intent.putExtra("amount",totalBill);
-//                    }
-//                    startActivity(intent);
-
-
                 }
             });
-
         }
     };
-
 }
